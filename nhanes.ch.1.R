@@ -14,8 +14,8 @@
 # older is 85 years.
 # RIAGNDR SAS Label Both males and females 0 YEARS - 150 YEARS 1 M 2 F
 ##########################################################
-# bring in GSS 2016 data from the web and examine it
 
+# bring in GSS 2016 data from the web and examine it
 library(package = "data.table")
 nhanes.2013 <- fread(file = "[data folder location]/data/nhanes_2013_ch1.csv")
 
