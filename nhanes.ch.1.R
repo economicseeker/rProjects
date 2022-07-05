@@ -28,13 +28,13 @@ nhanes.2013$V1 <- NULL
 library(package = "tidyverse")
 nhanes.2013.cleaned <- nhanes.2013 %>%
   mutate(DUQ200 = as.character(x = DUQ200)) %>%
-  mutate(RIDAGEYR = as.numeric(x = RIDAGEYR)) %>%
   mutate(DUQ200 = recode(.x = DUQ200, "1" = "Yes")) %>%
   mutate(DUQ200 = recode(.x = DUQ200, "2" = "No")) %>%
   mutate(DUQ200 = na_if(x = DUQ200, y = "7")) %>%
   mutate(DUQ200 = na_if(x = DUQ200, y = "9")) %>%
   mutate(DUQ200 = as.factor(x = DUQ200 )) %>%
   mutate(DUQ200 = droplevels(x = DUQ200)) %>%
+  mutate(RIDAGEYR = as.numeric(x = RIDAGEYR)) %>%
   mutate(RIDAGEYR.CAT = cut(x = RIDAGEYR,
                             breaks = c(-Inf, 29, 39, 49, Inf),               
                             labels = c("18 - 29", "30 - 39", "40 - 49", "50 - 59" )))
