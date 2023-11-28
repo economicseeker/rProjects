@@ -150,7 +150,8 @@ nhanes.2016.cleaned %>%
   group_by(sex) %>%
   summarize(m.sbp = mean(x = systolic),
             var.sbp = var(x = systolic),
-            samp.size = n())
+            samp.size = n()) %>%
+  mutate_if(is.numeric, format, 4)
 
 # compare systolic blood pressure for males and females
 twosampt <- t.test(formula = nhanes.2016.cleaned$systolic ~ nhanes.2016.cleaned$sex)
@@ -185,6 +186,18 @@ twosampt65
 #the mean difference in systolic blood pressure between males and females was -3.0 points,
 #whereas the estimated difference in the population of US males and females over age 65
 # is between -0.059 points and -4.508 points.
+
+# density plot of systolic by sex (+65)
+dens.sex.bp <- nhanes.2016.65plus.clean %>%
+  ggplot(aes(x = systolic,
+             fill = sex)) +
+  geom_density(alpha = .8) +
+  theme_minimal() +
+  labs(x = "Systolic blood pressure", y = "Probability density") +
+  scale_fill_manual(values = c('gray', '#7463AC'),
+                    name = "Sex")
+dens.sex.bp
+
 
 #6.7
 # rename second systolic measure and create diff variable for
@@ -321,6 +334,9 @@ nhanes.2016.cleaned %>%
        y = "Observed differences between SBP measures")+
   scale_color_manual(values = "#7463AC", name = "") +
   scale_linetype_manual(values = 1, name = "")
+
+# statistical test of normality for difference variable
+semTools::skew(object = nhanes.2016.cleaned$diff.syst)
 
 # equal variances for systolic by sex
 car::leveneTest(y = systolic ~ sex, data = nhanes.2016.cleaned)
