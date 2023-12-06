@@ -348,6 +348,12 @@ car::leveneTest(y = systolic ~ sex, data = nhanes.2016.cleaned)
 # examine median for systolic variable
 median(x = nhanes.2016.cleaned$systolic, na.rm = TRUE)
 
+# install required package
+install.packages("BSDA")
+
+# load the package
+library("BSDA")
+
 #6.10.1.2
 # compare observed median SBP to 120
 BSDA::SIGN.test(x = nhanes.2016.cleaned$systolic, md = 120)
@@ -364,13 +370,26 @@ u.syst.by.sex <- wilcox.test(formula = nhanes.2016.cleaned$systolic ~
   nhanes.2016.cleaned$sex, paired = FALSE)
 u.syst.by.sex
 
+# compare systolic blood pressure by sex
+wilcox.test(formula = nhanes.2016.cleaned$systolic ~ nhanes.2016.cleaned$sex)
+
 #6.10.4
 # use qnorm to find z from p-value
 qnorm(p = u.syst.by.sex$p.value)
 
+# Effect size for Mann-Whitney U ( r = z / √n)
+effect.size.man.whitney <- qnorm(p = u.syst.by.sex$p.value) / sqrt(7145)
+effect.size.man.whitney
+
 # new data frame with no NA
 nhanes.2016.cleaned.noNA <- nhanes.2016.cleaned %>%
   drop_na(systolic)
+
+# install required package
+install.packages("rcompanion")
+
+# load the package
+library("rcompanion")
 
 # use new data frame to get r
 rcompanion::wilcoxonR(x = nhanes.2016.cleaned.noNA$systolic,
@@ -393,7 +412,7 @@ ks.test(x = males.systolic,
 # ECDF for male and female SBP (Figure 6.19)
 nhanes.2016.cleaned %>%
   ggplot(aes(x = systolic, color = sex)) +
-  stat_ecdf(size = 1) +
+  stat_ecdf(size = 0.7) +
   theme_minimal() +
   labs(x = "Systolic blood pressure (mmHg)",
        y = "Cumulative probability") +
