@@ -312,7 +312,7 @@ kw.usetech.by.marital
 # Conduct a two-way ANOVA with time using technology by sex and marital
 # status. Interpret results and check assumptions (Achievement 7).
 
-# graph usetech by degree and sex (Figure 7.19)
+# graph usetech by degree and sex
 gss.2018.cleaned %>%
   ggplot(aes(y = USETECH, x = MARITAL)) +
   geom_boxplot(aes(fill = SEX), alpha = .4) +
